@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  password  String
+  role
+  createdAt DateTime
+  updateAt  DateTime
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String?
+  email     String?
+  createdAt DateTime
+  updateAt  DateTime
+}
+
+model Sector {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  createdAt   DateTime
+  updateAt    DateTime
+}
+
+model Equipament {
+  id          String   @id @default(uuid())
+  sapCode     String
+  name        String
+  type        String
+  description String
+  createdAt   DateTime
+  updateAt    DateTime
+}
+
+model RepairShipment {
+  id               String    @id @default(uuid())
+  invoiceNumber    String
+  companyId        Company[]
+  originLocationId Sector[]
+}
