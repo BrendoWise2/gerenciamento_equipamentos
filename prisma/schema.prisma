@@ -4,47 +4,152 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  OPERATOR
+}
+
+enum ShipmentStatus {
+  SENT
+  IN_REPAIR
+  PARTIALLY_RETURNED
+  RETURNED
+  OVERDUE
+  CANCELED
+}
+
+enum AttachmentType {
+  INVOICE
+  EQUIPMENT_PHOTO
+  RETURN_PROOF
+  OTHER
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  password  String
-  role
-  createdAt DateTime
-  updateAt  DateTime
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(OPERATOR)
+
+  repairShipments RepairShipment[]
+  statusHistories StatusHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Company {
-  id        String   @id @default(uuid())
-  name      String
-  phone     String?
-  email     String?
-  createdAt DateTime
-  updateAt  DateTime
+  id    String  @id @default(uuid())
+  name  String
+  cnpj  String? @unique
+  phone String?
+  email String?
+
+  repairShipments RepairShipment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Sector {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  createdAt   DateTime
-  updateAt    DateTime
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+
+  repairShipments RepairShipment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Equipament {
-  id          String   @id @default(uuid())
-  sapCode     String
+model Equipment {
+  id          String  @id @default(uuid())
+  sapCode     String  @unique
   name        String
   type        String
-  description String
-  createdAt   DateTime
-  updateAt    DateTime
+  description String?
+
+  shipmentItems RepairShipmentItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model RepairShipment {
-  id               String    @id @default(uuid())
-  invoiceNumber    String
-  companyId        Company[]
-  originLocationId Sector[]
+  id                 String         @id @default(uuid())
+  invoiceNumber      String
+  departureDate      DateTime
+  expectedReturnDate DateTime?
+  actualReturnDate   DateTime?
+  status             ShipmentStatus @default(SENT)
+  notes              String?
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  originSectorId String
+  originSector   Sector @relation(fields: [originSectorId], references: [id])
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  items           RepairShipmentItem[]
+  attachments     Attachment[]
+  statusHistories StatusHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RepairShipmentItem {
+  id                 String  @id @default(uuid())
+  quantity           Int
+  returnedQuantity   Int     @default(0)
+  problemDescription String?
+  serviceDescription String?
+
+  repairShipmentId String
+  repairShipment   RepairShipment @relation(fields: [repairShipmentId], references: [id])
+
+  equipmentId String
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+
+  attachments Attachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Attachment {
+  id       String         @id @default(uuid())
+  fileName String
+  fileUrl  String
+  fileType AttachmentType @default(OTHER)
+
+  repairShipmentId String
+  repairShipment   RepairShipment @relation(fields: [repairShipmentId], references: [id])
+
+  repairShipmentItemId String?
+  repairShipmentItem   RepairShipmentItem? @relation(fields: [repairShipmentItemId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model StatusHistory {
+  id          String          @id @default(uuid())
+  oldStatus   ShipmentStatus?
+  newStatus   ShipmentStatus
+  description String?
+
+  repairShipmentId String
+  repairShipment   RepairShipment @relation(fields: [repairShipmentId], references: [id])
+
+  changedById String
+  changedBy   User   @relation(fields: [changedById], references: [id])
+
+  createdAt DateTime @default(now())
 }
