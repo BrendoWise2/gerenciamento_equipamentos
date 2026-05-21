@@ -11,6 +11,14 @@ export const companyRepository = {
         });
     },
 
+    findById(id: string){
+        return prisma.company.findUnique({
+            where: {
+                id: id,
+            }
+        })
+    },
+
     create(data: Prisma.CompanyCreateInput){
         return prisma.company.create({
             data,

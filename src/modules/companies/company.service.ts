@@ -8,7 +8,11 @@ export const companyService = {
         return companyRepository.findMany();
     },
 
+    listById(id: string){
+        return companyRepository.findById(id)
+    },
+
     create(data: CreateCompanyInput){
         return companyRepository.create(data);
-    }    
+    },    
 };
