@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export const companyRepository = {
 
@@ -9,4 +10,10 @@ export const companyRepository = {
             },
         });
     },
+
+    create(data: Prisma.CompanyCreateInput){
+        return prisma.company.create({
+            data,
+        });
+    }
 };
