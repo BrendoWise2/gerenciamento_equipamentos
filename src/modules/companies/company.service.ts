@@ -1,5 +1,5 @@
 import { companyRepository } from "./company.repository";
-import { CreateCompanyInput } from "./company.schema";
+import { CreateCompanyInput, UpdateCompanyInput } from "./company.schema";
 
 
 export const companyService = {
@@ -14,5 +14,9 @@ export const companyService = {
 
     create(data: CreateCompanyInput){
         return companyRepository.create(data);
-    },    
+    }, 
+    
+    edit(id: string, data: UpdateCompanyInput){
+        return companyRepository.edit(id, data)
+    }
 };

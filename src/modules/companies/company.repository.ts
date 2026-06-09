@@ -23,5 +23,12 @@ export const companyRepository = {
         return prisma.company.create({
             data,
         });
+    },
+
+    edit(id: string, data: Prisma.CompanyUpdateInput){
+        return prisma.company.update({
+            where:{id},
+            data,
+        })
     }
 };
