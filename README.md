@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 Gerenciamento de Eventos — Unincor
 
-## Getting Started
+Sistema web desenvolvido para a Unincor com o objetivo de centralizar e organizar o gerenciamento de eventos acadêmicos, com autenticação de usuários e notificações automáticas por e-mail.
 
-First, run the development server:
+## 🎯 Sobre o projeto
 
-```bash
+A plataforma permite à instituição gerenciar eventos de forma centralizada, com controle de acesso via autenticação e comunicação automatizada com os participantes através de e-mail, agilizando o processo que antes era feito de forma manual.
+
+### Principais funcionalidades
+
+- 📅 **Gerenciamento de eventos** — cadastro, edição e organização de eventos acadêmicos
+- 🔐 **Autenticação de usuários** — login seguro com JWT
+- 📧 **Notificações por e-mail** — envio automático de comunicações via SMTP
+- 🗄️ **Persistência de dados** — armazenamento estruturado em banco relacional
+
+## 🛠️ Tecnologias
+
+- [Node.js](https://nodejs.org/) — ambiente de execução backend
+- [MySQL](https://www.mysql.com/) — banco de dados relacional
+- **JWT** — autenticação e controle de sessão
+- **Nodemailer / SMTP** — envio de e-mails automáticos
+
+## 🚀 Como rodar o projeto
+
+### Pré-requisitos
+
+- Node.js instalado
+- Banco de dados MySQL configurado
+- Conta de e-mail com SMTP habilitado (ou senha de app, no caso do Gmail)
+
+### Instalação
+
+\`\`\`bash
+# Clone o repositório
+git clone https://github.com/BrendoWise2/gerenciamento-eventos-unincor.git
+
+# Acesse a pasta do projeto
+cd gerenciamento-eventos-unincor
+
+# Instale as dependências
+npm install
+
+# Configure as variáveis de ambiente
+# Crie um arquivo .env na raiz do projeto (veja o exemplo abaixo)
+
+# Inicie o servidor
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Exemplo de arquivo `.env`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+\`\`\`dotenv
+# String de conexão com MySQL (formato):
+# mysql://USER:PASSWORD@HOST:PORT/DATABASE
+DATABASE_URL=
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Segredo para JWT
+JWT_SECRET=
 
-## Learn More
+# Configuração SMTP para envio de e-mails
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@example.com
+SMTP_PASS=your_smtp_password_or_app_password
 
-To learn more about Next.js, take a look at the following resources:
+# URL do servidor (ex: endereço local da máquina onde a API estará acessível)
+SERVER_URL=http://localhost:3000
+\`\`\`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> ⚠️ Nunca envie seu `.env` real ao repositório. Use o exemplo acima apenas como referência.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Status do projeto
 
-## Deploy on Vercel
+Sistema real, desenvolvido e entregue para a Unincor.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 👤 Autor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Brendo Silva**
+[LinkedIn](https://www.linkedin.com/in/brendo-silva-b77321245) · [Portfólio](https://brendowise.vercel.app) · [GitHub](https://github.com/BrendoWise2)
